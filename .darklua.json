@@ -1,0 +1,14 @@
+{
+	"generator": "readable",
+	"bundle": {
+		"require_mode": {
+			"name": "path",
+			"sources": {
+				"@src": "./src"
+			}
+		},
+		"excludes": [
+			"@lune/**"
+		]
+	}
+}
