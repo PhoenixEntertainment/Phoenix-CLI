@@ -1,6 +1,7 @@
 local FileSystem = require("@lune/fs")
 local Serde = require("@lune/serde")
 local Roblox = require("@lune/roblox")
+local Error = require("../Util/Error")
 
 local Auth = {}
 
@@ -24,7 +25,7 @@ function Auth:GetOCKey()
 	if Configs.PHOENIX_OC_KEY ~= nil then
 		return Configs.PHOENIX_OC_KEY
 	else
-		Error(".env file does not specify PHOENIX_OC_KEY, unable to authenticate into Roblox!", "Error")
+		Error(".env file does not specify PHOENIX_OC_KEY, unable to authenticate into Roblox!")
 	end
 end
 
