@@ -1,12 +1,12 @@
 local FileSystem = require("@lune/fs")
 local Serde = require("@lune/serde")
-local Roblox = require("@lune/roblox")
 
 local Table = require("../Modules/Util/Table")
 local Print = require("../Modules/Util/Print")
 local Error = require("../Modules/Util/Error")
 local GetUID = require("../Modules/Util/GetUID")
 local GetFileHash = require("../Modules/Util/GetFileHash")
+local B2 = require("../Modules/Web/B2")
 
 local IAC_RESOURCES = {
 	Universe = require("../Modules/Web/Resources/Universe"),
@@ -19,34 +19,12 @@ local IAC_RESOURCES = {
 }
 
 local BASE_IAC_STATE = {
-	SchemaVersion = 3,
+	SchemaVersion = 1,
 	Resources = {},
 	FirstDeployment = true,
+	SessionLock = "",
 }
-local IAC_SCHEMA_MIGRATIONS = {
-	["1 -> 2"] = function(IACState)
-		for ResourceType, ResourceInstances in pairs(IACState.Resources) do
-			if ResourceType == "Places" then
-				for _, ResourceInstance in pairs(ResourceInstances) do
-					ResourceInstance.Settings = {
-						name = "",
-						description = "",
-						maxPlayerCount = 0,
-						socialSlotType = "",
-					}
-				end
-			end
-		end
-
-		return IACState
-	end,
-	["2 -> 3"] = function(IACState)
-		IACState.Universe = IACState.Resources.Universe
-		IACState.Resources.Universe = nil
-
-		return IACState
-	end,
-}
+local IAC_SCHEMA_MIGRATIONS = {}
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Helper functions
@@ -84,33 +62,45 @@ local function GetMigratedIACState(State)
 	return CurrentState
 end
 
-local function ReadIACState(ProjName, EnvName)
-	local StateFileName = "b2/" .. ProjName .. "/" .. EnvName .. ".json"
+local function WriteIACState(ProjName, EnvName, IACState)
+	local StateFileName = ProjName .. "/" .. EnvName .. ".json"
+	local Success = B2:WriteFile(StateFileName, Serde.encode("json", IACState, true))
 
-	if FileSystem.isFile(StateFileName) then --TODO: Replace this with webcall to file in b2 bucket
-		local IACState = Serde.decode("json", FileSystem.readFile(StateFileName))
-
-		if IACState.SchemaVersion ~= BASE_IAC_STATE.SchemaVersion then
-			if IACState.SchemaVersion > BASE_IAC_STATE.SchemaVersion then
-				Error("IAC state file has a newer schema version than is supported. Is your phoenix CLI install outdated?")
-			end
-
-			return GetMigratedIACState(IACState)
-		else
-			return IACState
-		end
-	else
-		return Table.Copy(BASE_IAC_STATE, true)
+	if not Success then
+		Error("Failed to write IAC state due to a web failure, aborting.")
 	end
 end
 
-local function WriteIACState(ProjName, EnvName, IACState)
-	if not FileSystem.isDir("b2/" .. ProjName .. "/") then
-		FileSystem.writeDir("b2/" .. ProjName .. "/")
-	end
-	local StateFileName = "b2/" .. ProjName .. "/" .. EnvName .. ".json"
+local function ReadIACState(ProjName, EnvName)
+	local Success, IACState, NotFound = B2:ReadFile(ProjName .. "/" .. EnvName .. ".json")
 
-	FileSystem.writeFile(StateFileName, Serde.encode("json", IACState, true))
+	if not Success and not NotFound then
+		Error("Failed to read IAC state due to a web failure, aborting.")
+	end
+
+	if NotFound then
+		IACState = Table.Copy(BASE_IAC_STATE, true)
+	else
+		IACState = Serde.decode("json", IACState)
+	end
+
+	if IACState.SessionLock ~= "" then
+		Error("Failed to read IAC state due to sessionlock, aborting.")
+	end
+
+	if IACState.SchemaVersion ~= BASE_IAC_STATE.SchemaVersion then
+		if IACState.SchemaVersion > BASE_IAC_STATE.SchemaVersion then
+			Error("IAC state file has a newer schema version than is supported. Is your phoenix CLI install outdated?")
+		end
+
+		IACState = GetMigratedIACState(IACState)
+	end
+
+	IACState.SessionLock = GetUID()
+
+	WriteIACState(ProjName, EnvName, IACState)
+
+	return IACState
 end
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -247,6 +237,8 @@ return {
 				end
 			end
 		end
+
+		IACState.SessionLock = ""
 		WriteIACState(IACConfigs.ProjectName, EnvName, IACState)
 	end,
 }
