@@ -250,5 +250,9 @@ return {
 
 		IACState.SessionLock = ""
 		WriteIACState(IACConfigs.ProjectName, EnvName, IACState)
+
+		if Args.GetArg("stateoutput") ~= nil then
+			FileSystem.writeFile(Args.GetArg("stateoutput"), Serde.encode("json", IACState, true))
+		end
 	end,
 }

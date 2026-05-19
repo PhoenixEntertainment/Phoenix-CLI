@@ -90,7 +90,7 @@ local Commands = {
 		Run = function()
 			local CurrentCommands = {
 				{
-					Command = "deploy --env <EnvName>",
+					Command = "deploy --env <EnvName> --stateoutput <OutFilePath>",
 					Description = "IAC tool that creates & modifies roblox web resources to match the state in a local configuration",
 				},
 				{
