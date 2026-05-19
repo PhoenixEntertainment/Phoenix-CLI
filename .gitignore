@@ -9,4 +9,5 @@ Temp/*
 Env/
 !Env/.gitkeep
 sourcemap.json
+Environments.json
 *.env
