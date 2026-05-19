@@ -32,6 +32,8 @@ jobs:
                     "macos-aarch64"
                   )
 
+                  darklua process src/Main.luau Temp/main.bundle.luau
+
                   for target in "${targets[@]}"; do
                     echo "Building for $target..."
                     lune build Temp/main.bundle.luau -o Temp/Binaries/phoenix
