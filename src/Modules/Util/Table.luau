@@ -14,6 +14,8 @@
 	a table with cyclical references _and_ the `deep` parameter set to
 	`true` will result in a stack-overflow.
 	:::
+
+	Taken from https://github.com/Sleitnick/RbxUtil/blob/main/modules/table-util/init.luau
 ]=]
 local function Copy<T>(t: T, deep: boolean?): T
 	if not deep then
