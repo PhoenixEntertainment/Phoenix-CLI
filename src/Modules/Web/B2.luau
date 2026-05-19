@@ -149,6 +149,8 @@ function B2:WriteFile(DestFilePath, FileContents)
 	end
 end
 
-CreateB2Session()
+function B2:CreateNewSession()
+	CreateB2Session()
+end
 
 return B2

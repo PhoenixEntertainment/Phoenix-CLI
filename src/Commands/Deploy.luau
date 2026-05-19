@@ -71,6 +71,7 @@ local function WriteIACState(ProjName, EnvName, IACState)
 end
 
 local function ReadIACState(ProjName, EnvName)
+	B2:CreateNewSession()
 	local Success, IACState, NotFound = B2:ReadFile(ProjName .. "/" .. EnvName .. ".json")
 
 	if not Success and not NotFound then
