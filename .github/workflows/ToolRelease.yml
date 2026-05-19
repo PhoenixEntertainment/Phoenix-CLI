@@ -1,0 +1,54 @@
+name: Tool release
+
+on:
+    push:
+        tags:
+            - "v*"
+
+jobs:
+    release:
+        name: Create tool release
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@900f2210b1d28bbbd0bd22d17926b9e224e8f231
+              with:
+                  token: ${{ secrets.REPOS_READ }}
+
+            - name: Setup aftman
+              uses: ok-nick/setup-aftman@51916045620d57c97c11ad817f73d8e49d019087
+
+            - name: Build tool binaries
+              run: |
+                  mkdir Temp
+                  mkdir Temp/Binaries
+
+                  targets=(
+                    "windows-x86_64"
+                    "windows-aarch64"
+                    "linux-x86_64"
+                    "linux-aarch64"
+                    "macos-x86_64"
+                    "macos-aarch64"
+                  )
+
+                  for target in "${targets[@]}"; do
+                    echo "Building for $target..."
+                    lune build Temp/main.bundle.luau -o Temp/Binaries/phoenix
+
+                    if [[ "$target" == windows-* ]]; then
+                      mv Temp/Binaries/phoenix Temp/Binaries/phoenix.exe
+
+                      zip -j "Temp/Binaries/Phoenix-${{ github.ref_name }}-$target.zip" Temp/Binaries/phoenix.exe
+                      rm Temp/Binaries/phoenix.exe
+                    else
+                      zip -j "Temp/Binaries/Phoenix-${{ github.ref_name }}-$target.zip" Temp/Binaries/phoenix
+                      rm Temp/Binaries/phoenix
+                    fi
+                  done
+
+            - name: Create Release
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  gh release create ${{ github.ref_name }} Temp/Binaries/*.zip --draft --verify-tag --title ${{ github.ref_name }}
