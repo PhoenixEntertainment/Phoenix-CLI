@@ -36,7 +36,7 @@ jobs:
 
                   for target in "${targets[@]}"; do
                     echo "Building for $target..."
-                    lune build Temp/main.bundle.luau -o Temp/Binaries/phoenix
+                    lune build Temp/main.bundle.luau -o Temp/Binaries/phoenix -t $target
 
                     if [[ "$target" == windows-* ]]; then
                       mv Temp/Binaries/phoenix Temp/Binaries/phoenix.exe
