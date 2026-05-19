@@ -39,8 +39,6 @@ jobs:
                     lune build Temp/main.bundle.luau -o Temp/Binaries/phoenix -t $target
 
                     if [[ "$target" == windows-* ]]; then
-                      mv Temp/Binaries/phoenix Temp/Binaries/phoenix.exe
-
                       zip -j "Temp/Binaries/Phoenix-${{ github.ref_name }}-$target.zip" Temp/Binaries/phoenix.exe
                       rm Temp/Binaries/phoenix.exe
                     else
