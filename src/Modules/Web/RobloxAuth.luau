@@ -1,7 +1,7 @@
 local FileSystem = require("@lune/fs")
 local Serde = require("@lune/serde")
 local Roblox = require("@lune/roblox")
-local Error = require("../Util/Error")
+local Error = require("@util/Error")
 
 local Auth = {}
 

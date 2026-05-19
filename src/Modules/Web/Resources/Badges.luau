@@ -1,8 +1,8 @@
 local FileSystem = require("@lune/fs")
-local RobloxRequest = require("../RobloxRequest")
-local GetFileHash = require("../../Util/GetFileHash")
-local Table = require("../../Util/Table")
-local FormData = require("../FormData/FormData")
+local FormData = require("@vendor/DiscordLuau/FormData/FormData")
+local Table = require("@util/Table")
+local GetFileHash = require("@util/GetFileHash")
+local RobloxRequest = require("@web/RobloxRequest")
 
 local Badges = {}
 
@@ -29,7 +29,7 @@ local function CreateBadge(UniverseID, BadgeSettings, Icon)
 	return true, Response.Body.id
 end
 
-local function UpdateBadge(UniverseID, BadgeID, BadgeSettings)
+local function UpdateBadge(_, BadgeID, BadgeSettings)
 	local Response = RobloxRequest("PATCH", "https://apis.roblox.com/legacy-badges/v1/badges/" .. BadgeID, {
 		Body = BadgeSettings,
 	})
@@ -37,7 +37,7 @@ local function UpdateBadge(UniverseID, BadgeID, BadgeSettings)
 	return Response.Ok
 end
 
-local function UpdateBadgeIcon(UniverseID, BadgeID, Icon)
+local function UpdateBadgeIcon(_, BadgeID, Icon)
 	local BadgeFormData = FormData.new()
 
 	BadgeFormData:append("Files", FileSystem.readFile(Icon), "icon.png")

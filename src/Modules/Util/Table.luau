@@ -1,5 +1,3 @@
-local Table = {}
-
 --[=[
 	@within TableUtil
 	@function Copy
@@ -56,7 +54,7 @@ function deep_compare(tbl1, tbl2)
 	return true
 end
 
-Table.Copy = Copy
-Table.IsEqual = deep_compare
-
-return Table
+return {
+	Copy = Copy,
+	IsEqual = deep_compare,
+}

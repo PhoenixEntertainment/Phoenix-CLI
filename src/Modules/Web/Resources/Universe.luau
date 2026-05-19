@@ -1,4 +1,4 @@
-local RobloxRequest = require("../RobloxRequest")
+local RobloxRequest = require("@web/RobloxRequest")
 
 local Universe = {}
 

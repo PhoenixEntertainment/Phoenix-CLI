@@ -1,21 +1,20 @@
 local FileSystem = require("@lune/fs")
 local Serde = require("@lune/serde")
-
-local Table = require("../Modules/Util/Table")
-local Print = require("../Modules/Util/Print")
-local Error = require("../Modules/Util/Error")
-local GetUID = require("../Modules/Util/GetUID")
-local GetFileHash = require("../Modules/Util/GetFileHash")
-local B2 = require("../Modules/Web/B2")
+local Print = require("@util/Print")
+local Error = require("@util/Error")
+local GetUID = require("@util/GetUID")
+local GetFileHash = require("@util/GetFileHash")
+local Table = require("@util/Table")
+local B2 = require("@web/B2")
 
 local IAC_RESOURCES = {
-	Universe = require("../Modules/Web/Resources/Universe"),
-	UniverseSettings = require("../Modules/Web/Resources/UniverseSettings"),
-	Places = require("../Modules/Web/Resources/Places"),
-	SocialLinks = require("../Modules/Web/Resources/SocialLinks"),
-	GamePasses = require("../Modules/Web/Resources/GamePasses"),
-	DevProducts = require("../Modules/Web/Resources/DevProducts"),
-	Badges = require("../Modules/Web/Resources/Badges"),
+	Universe = require("@web/Resources/Universe"),
+	UniverseSettings = require("@web/Resources/UniverseSettings"),
+	Places = require("@web/Resources/Places"),
+	SocialLinks = require("@web/Resources/SocialLinks"),
+	GamePasses = require("@web/Resources/GamePasses"),
+	DevProducts = require("@web/Resources/DevProducts"),
+	Badges = require("@web/Resources/Badges"),
 }
 
 local BASE_IAC_STATE = {

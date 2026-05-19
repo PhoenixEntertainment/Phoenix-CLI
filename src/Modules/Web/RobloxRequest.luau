@@ -1,7 +1,7 @@
 local Serde = require("@lune/serde")
 local Network = require("@lune/net")
-local Print = require("../Util/Print")
-local RobloxAuth = require("./RobloxAuth")
+local Print = require("@util/Print")
+local RobloxAuth = require("@web/RobloxAuth")
 
 local CSRF_Token = ""
 

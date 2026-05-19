@@ -1,8 +1,8 @@
 local FileSystem = require("@lune/fs")
-local RobloxRequest = require("../RobloxRequest")
-local GetFileHash = require("../../Util/GetFileHash")
-local Table = require("../../Util/Table")
-local FormData = require("../FormData/FormData")
+local Table = require("@util/Table")
+local RobloxRequest = require("@web/RobloxRequest")
+local GetFileHash = require("@util/GetFileHash")
+local FormData = require("@vendor/DiscordLuau/FormData/FormData")
 
 local Devproducts = {}
 

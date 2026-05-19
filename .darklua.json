@@ -4,7 +4,9 @@
 		"require_mode": {
 			"name": "path",
 			"sources": {
-				"@src": "./src"
+				"@util": "./src/Modules/Util",
+				"@web": "./src/Modules/Web",
+				"@vendor": "./Vendor"
 			}
 		},
 		"excludes": [

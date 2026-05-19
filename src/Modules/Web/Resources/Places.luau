@@ -1,7 +1,7 @@
 local FileSystem = require("@lune/fs")
-local RobloxRequest = require("../RobloxRequest")
-local GetFileHash = require("../../Util/GetFileHash")
-local Table = require("../../Util/Table")
+local Table = require("@util/Table")
+local GetFileHash = require("@util/GetFileHash")
+local RobloxRequest = require("@web/RobloxRequest")
 
 local Places = {}
 

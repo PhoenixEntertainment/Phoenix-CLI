@@ -1,9 +1,9 @@
 local Serde = require("@lune/serde")
 local Network = require("@lune/net")
 local FileSystem = require("@lune/fs")
-local Print = require("../Util/Print")
-local Error = require("../Util/Error")
-local Base64 = require("../Util/Base64")
+local Print = require("@util/Print")
+local Error = require("@util/Error")
+local Base64 = require("@util/Base64")
 
 local B2 = {}
 

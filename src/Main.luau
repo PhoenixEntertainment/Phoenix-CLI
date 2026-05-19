@@ -1,5 +1,5 @@
 local Process = require("@lune/process")
-local Error = require("./Modules/Util/Error")
+local Error = require("@util/Error")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Helper functions
