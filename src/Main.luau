@@ -85,6 +85,41 @@ local Commands = {
 			print("v1.0.0")
 		end,
 	},
+	["--Help"] = {
+		ExpectedArguments = {},
+		Run = function()
+			local CurrentCommands = {
+				{
+					Command = "deploy --env <EnvName>",
+					Description = "IAC tool that creates & modifies roblox web resources to match the state in a local configuration",
+				},
+				{
+					Command = "--version",
+					Description = "Displays phoenix's current version",
+				},
+				{
+					Command = "--help",
+					Description = "Displays this help message",
+				},
+			}
+			local MaxColumnWidth = 0
+
+			for _, Command in pairs(CurrentCommands) do
+				MaxColumnWidth = math.max(MaxColumnWidth, #Command.Command)
+			end
+			MaxColumnWidth = MaxColumnWidth + 4
+
+			print("Phoenix, a CLI utility to make developer QoL better")
+			print()
+			print("COMMANDS")
+			print("---------")
+
+			for _, Command in pairs(CurrentCommands) do
+				local PaddingString = string.rep(" ", MaxColumnWidth - #Command.Command)
+				print(Command.Command .. PaddingString .. Command.Description)
+			end
+		end,
+	},
 }
 
 if Process.args[1] == nil then
