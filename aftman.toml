@@ -1,0 +1,5 @@
+[tools]
+selene = "Kampfkarren/selene@0.30.0"
+wally = "upliftgames/wally@0.3.2"
+lune = "filiptibell/lune@0.10.4"
+darklua = "seaofvoices/darklua@0.18.0"

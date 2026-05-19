@@ -1,0 +1,13 @@
+*.rbxlx
+*.rbxl
+*.lock
+build/
+Packages/
+ServerPackages/
+Temp/*
+!Temp/.gitkeep
+Env/
+!Env/.gitkeep
+sourcemap.json
+Environments.json
+*.env

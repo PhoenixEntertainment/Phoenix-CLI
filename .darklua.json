@@ -1,0 +1,16 @@
+{
+	"generator": "readable",
+	"bundle": {
+		"require_mode": {
+			"name": "path",
+			"sources": {
+				"@util": "./src/Modules/Util",
+				"@web": "./src/Modules/Web",
+				"@vendor": "./Vendor"
+			}
+		},
+		"excludes": [
+			"@lune/**"
+		]
+	}
+}
