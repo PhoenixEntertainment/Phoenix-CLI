@@ -128,6 +128,16 @@ local function DoInitialSanityChecks(Args)
 			Error("No starter place was defined in Environments.json!")
 		end
 	end
+
+	for ResourceType, Resources in pairs(GetIACConfigs().Resources) do
+		for ResourceInstanceID, ResourceInstance in pairs(Resources) do
+			if ResourceInstance.File ~= nil then
+				if not FileSystem.isFile(ResourceInstance.File) then
+					Error(ResourceType .. " instance '" .. ResourceInstanceID .. "' specifies a file that does not exist! Is your filepath wrong?")
+				end
+			end
+		end
+	end
 end
 
 return {
