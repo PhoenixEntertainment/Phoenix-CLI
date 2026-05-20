@@ -112,6 +112,10 @@ local function DoInitialSanityChecks(Args)
 		Error("No environment with the name '" .. Args.GetArg("env") .. "' is defined in Environments.json!")
 	end
 
+	if GetIACConfigs().Resources.UniverseSettings == nil then
+		Error("No universe settings were specified in Environments.json!")
+	end
+
 	if GetIACConfigs().Resources.Places == nil then
 		Error("No places exist in Environments.json!")
 	else
