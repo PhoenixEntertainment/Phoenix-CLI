@@ -167,6 +167,9 @@ return {
 						PlaceConfig.Settings.name = "[" .. EnvName .. "] " .. PlaceConfig.Settings.name
 					end
 				end
+				for _, UniverseConfig in pairs(IACConfigs.Resources.UniverseSettings) do
+					UniverseConfig.name = "[" .. EnvName .. "] " .. UniverseConfig.name
+				end
 			end
 		end
 
