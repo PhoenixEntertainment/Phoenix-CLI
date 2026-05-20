@@ -82,7 +82,7 @@ local Commands = {
 	["--Version"] = {
 		ExpectedArguments = {},
 		Run = function()
-			print("v1.0.0")
+			print("v1.0.1")
 		end,
 	},
 	["--Help"] = {
