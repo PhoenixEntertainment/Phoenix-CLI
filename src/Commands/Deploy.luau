@@ -155,7 +155,7 @@ return {
 		local EnvName = Args.GetArg("env")
 		local IACState = ReadIACState(IACConfigs.ProjectName, EnvName)
 
-		print("Deploying resources to environment '" .. EnvName .. "'...")
+		Print("Deploying resources to environment '" .. EnvName .. "'...")
 
 		--------------------------------------------
 		-- Prepending env name to non-prod places --
@@ -177,7 +177,7 @@ return {
 		-- Doing first time depoyment if applicable --
 		----------------------------------------------
 		if IACState.FirstDeployment then
-			print("Creating universe for environment...")
+			Print("Creating universe for environment...")
 			local Success, Universe = IAC_RESOURCES.Universe:Create(IACConfigs.TargetOwnerID)
 
 			if Success then
@@ -216,12 +216,12 @@ return {
 				local ShouldDoUpdate = true
 
 				if ResourceState == nil then -- Resource is defined in config but doesn't exist in state. It's a new resource!
-					print("Creating new '" .. ResourceType .. "' resource with ID '" .. ResourceInstanceName .. "'...")
+					Print("Creating new '" .. ResourceType .. "' resource with ID '" .. ResourceInstanceName .. "'...")
 
 					local Success, NewResourceState = IAC_RESOURCES[ResourceType]:Create(IACState.Universe.UniverseID, ResourceInstance)
 
 					if not Success then
-						print("Failed to create '" .. ResourceType .. "' resource, skipping.", "Error")
+						Print("Failed to create '" .. ResourceType .. "' resource, skipping.", "Error")
 						ShouldDoUpdate = false
 					else
 						ResourceStates[ResourceInstanceName] = { InternalState = NewResourceState, ConfigState = ResourceInstance }
@@ -239,7 +239,7 @@ return {
 					end
 
 					if IsDifferent then
-						print("Updating '" .. ResourceType .. "' resource with ID '" .. ResourceInstanceName .. "'...")
+						Print("Updating '" .. ResourceType .. "' resource with ID '" .. ResourceInstanceName .. "'...")
 
 						local Success, NewResourceState = IAC_RESOURCES[ResourceType]:Update(IACState.Universe.UniverseID, ResourceInstance, ResourceState.InternalState)
 
@@ -249,7 +249,7 @@ return {
 							ResourceStates[ResourceInstanceName] = { InternalState = NewResourceState, ConfigState = ResourceInstance }
 						end
 					else
-						print("Skipping '" .. ResourceType .. "' resource with ID '" .. ResourceInstanceName .. "', no changes found")
+						Print("Skipping '" .. ResourceType .. "' resource with ID '" .. ResourceInstanceName .. "', no changes found")
 					end
 				end
 			end
@@ -257,6 +257,8 @@ return {
 
 		IACState.SessionLock = ""
 		WriteIACState(IACConfigs.ProjectName, EnvName, IACState)
+
+		Print("Finished deploying to environment '" .. EnvName .. "' (https://www.roblox.com/games/" .. IACState.Universe.RootPlaceID .. ")")
 
 		if Args.GetArg("stateoutput") ~= nil then
 			FileSystem.writeFile(Args.GetArg("stateoutput"), Serde.encode("json", IACState, true))
