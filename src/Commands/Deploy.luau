@@ -17,6 +17,12 @@ local IAC_RESOURCES = {
 	Badges = require("@web/Resources/Badges"),
 }
 
+local CONFIG_FORMATS = {
+	YML = "yaml",
+	YAML = "yaml",
+	JSON = "json",
+	TOML = "toml",
+}
 local BASE_IAC_STATE = {
 	SchemaVersion = 1,
 	Resources = {},
@@ -30,11 +36,13 @@ local IAC_SCHEMA_MIGRATIONS = {}
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 local function GetIACConfigs()
-	if FileSystem.isFile("Environments.json") then
-		return Serde.decode("json", FileSystem.readFile("Environments.json"))
-	else
-		Error("No Environments.json file found!")
+	for FormatName, SerdeFormat in pairs(CONFIG_FORMATS) do
+		if FileSystem.isFile("Environments." .. FormatName) then
+			return Serde.decode(SerdeFormat, FileSystem.readFile("Environments." .. FormatName))
+		end
 	end
+
+	Error("No Environments file found! Valid formats are JSON, YAML & TOML.")
 end
 
 local function EnvironmentExists(EnvName)
