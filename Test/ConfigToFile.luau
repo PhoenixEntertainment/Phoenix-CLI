@@ -2,7 +2,7 @@ local Serde = require("@lune/serde")
 local FileSystem = require("@lune/fs")
 
 local Config = {
-	ProjectName = "TestProject",
+	ProjectName = "IACTesting",
 	TargetOwnerID = 4446965,
 	Environments = {
 		{
@@ -167,7 +167,7 @@ local Config = {
 			ASubPlace = {
 				File = "./Test/SomeDatamodel.rbxl",
 				Settings = {
-					name = "Sub place",
+					name = "IAC Testing : Sub place",
 					description = "This is a sub-place!",
 					maxPlayerCount = 2,
 					socialSlotType = "Automatic",
